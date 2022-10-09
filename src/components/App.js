@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import "normalize.css";
-import { BrowserRouter, Router, Route } from "react-router-dom";
-import HeaderContainer from "containers/HeaderContainer";
-import SubNav from "components/search-subnav/SubNav";
-import IssuesTable from "components/issues-table/IssuesTable";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import SubNav from "./search-subnav/SubNav";
+import HeaderContainer from "../containers/HeaderContainer";
+import IssuesTable from "./issues-table/IssuesTable";
+import IssuesDetail from "./issue-detail/IssueDetail";
 
 const Container = styled.div`
   font-size: 14px;
@@ -25,15 +26,14 @@ const App = () => (
     <HeaderContainer />
     <IssueListingContainer>
       <SubNav />
-      <BrowserRouter>
-        <Router>
+      <Router>
+        <Switch>
           <Route exact path="/" component={IssuesTable} />
-          {/* <Route path="/:id" component={IssuesDetail} /> */}
+          <Route path="/:id" component={IssuesDetail} />
           <Route path="*" component={IssuesTable} />
-        </Router>
-      </BrowserRouter>
+        </Switch>
+      </Router>
     </IssueListingContainer>
   </Container>
 );
-
 export default App;
