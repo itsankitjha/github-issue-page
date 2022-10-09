@@ -10,15 +10,13 @@ export const fetchRepoInfo = createAsyncThunk(
       return null;
     }
     try {
-      console.log("response");
       const response = await requestApi(GIT_REPO_INFO, "GET");
       if (response) {
         return response;
       }
       return rejectWithValue(response.message);
     } catch (err) {
-      console.log(err);
-      // alert(err);
+      alert(err);
       throw err;
     }
   }
@@ -44,7 +42,6 @@ export const repoSlice = createSlice({
         }
       })
       .addCase(fetchRepoInfo.fulfilled, (state, action) => {
-        console.log(action);
         const { requestId } = action.meta;
         if (state.fetching === true && state.currentRequestId === requestId) {
           state.fetching = false;
