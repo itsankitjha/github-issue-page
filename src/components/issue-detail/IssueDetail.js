@@ -29,7 +29,6 @@ const IssueDetail = () => {
   useEffect(() => {
     requestApi(`${GIT_ISSUE_ENDPOINT}/${id}`, "GET").then(
       (response) => {
-        console.log(response);
         setIssue(response);
       },
       (error) => {
