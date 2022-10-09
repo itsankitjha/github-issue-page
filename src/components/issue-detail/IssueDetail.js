@@ -27,7 +27,6 @@ const IssueDetail = () => {
 
   const { id } = useParams();
   useEffect(() => {
-    console.log(id);
     requestApi(`${GIT_ISSUE_ENDPOINT}/${id}`, "GET").then(
       (response) => {
         console.log(response);

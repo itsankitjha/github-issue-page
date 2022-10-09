@@ -47,7 +47,7 @@ export const issuesSlice = createSlice({
         const { requestId } = action.meta;
         if (state.fetching === true && state.currentRequestId === requestId) {
           state.fetching = false;
-          state.issues = action.payload;
+          state.issues = [...current(state.issues), ...action.payload];
           state.currentRequestId = undefined;
         }
       })
