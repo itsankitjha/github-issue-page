@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import HeaderContainer from "containers/HeaderContainer";
 import SubNav from "components/search-subnav/SubNav";
 import IssuesTable from "components/issues-table/IssuesTable";
+import IssuesDetail from "components/issue-detail/IssueDetail";
 
 const Container = styled.div`
   font-size: 14px;
@@ -28,7 +29,7 @@ const App = () => (
 
       <Routes>
         <Route exact path="/" element={<IssuesTable />} />
-        {/* <Route path="/:id" component={IssuesDetail} /> */}
+        <Route path="/:id" element={<IssuesDetail />} />
         <Route path="*" element={<IssuesTable />} />
       </Routes>
     </IssueListingContainer>

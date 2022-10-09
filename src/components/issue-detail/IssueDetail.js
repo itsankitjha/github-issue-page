@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import React, { Component } from "react";
-import { fetchIssueDetail } from "../../api/fetchIssueDetail";
+import React, { Component, useEffect, useState } from "react";
+// import { fetchIssueDetail } from "../../api/fetchIssueDetail";
 import { GIT_ISSUE_ENDPOINT, OWNER, REPO, WEB_URL } from "config/constants";
 import styled from "styled-components";
 import IssueOpenedSVG from "../commons/svg/IssueOpenedSVG";
@@ -12,6 +12,8 @@ import StateButton from "./StateButton";
 import WhoOpenedIssueAndWhen from "./WhoOpenedTheIssueAndWhen";
 import LoaderComponent from "../commons/LoaderComponent";
 import SomethingWentWrong from "../commons/SomethingWentWrong";
+import requestApi from "config/apiHandler";
+import { useParams } from "react-router-dom";
 
 const IssueInformation = styled.div`
   margin: 10px 0px;
@@ -19,61 +21,56 @@ const IssueInformation = styled.div`
 
 const IssueDetailContainer = styled.div``;
 
-class IssueDetail extends Component {
-  state = { issue: {}, error: "" };
-  componentDidMount() {
-    const {
-      match: {
-        params: { id },
-      },
-    } = this.props;
+const IssueDetail = () => {
+  const [issue, setIssue] = useState({});
+  const [error, setError] = useState("");
+
+  const { id } = useParams();
+  useEffect(() => {
     console.log(id);
-    fetchIssueDetail(`${GIT_ISSUE_ENDPOINT}/${id}`).then(
+    requestApi(`${GIT_ISSUE_ENDPOINT}/${id}`, "GET").then(
       (response) => {
-        this.setState({ issue: response.data });
+        console.log(response);
+        setIssue(response);
       },
       (error) => {
-        this.setState({ error });
+        setError(error);
       }
     );
-  }
+  }, []);
 
-  render() {
-    const { issue, error } = this.state;
-    console.log(issue);
-    return (
-      <div>
-        {Object.keys(issue).length > 0 ? (
-          <IssueDetailContainer>
-            <IssueDetailHeader>
-              <span>{issue.title}</span>
-              <IssueNumber>#{issue.number}</IssueNumber>
-            </IssueDetailHeader>
+  return (
+    <div>
+      {Object.keys(issue).length > 0 ? (
+        <IssueDetailContainer>
+          <IssueDetailHeader>
+            <span>{issue.title}</span>
+            <IssueNumber>#{issue.number}</IssueNumber>
+          </IssueDetailHeader>
 
-            <IssueInformation>
-              <StateButton>
-                <IssueOpenedSVG />
-                {issue.state}
-              </StateButton>
-              <WhoOpenedIssueAndWhen>
-                <UserAnchor
-                  style={{ fontWeight: "bold" }}
-                  href={`${WEB_URL}/${OWNER}/${REPO}/issues/created_by/${issue.user.login}`}
-                >
-                  {issue.user.login}{" "}
-                </UserAnchor>
-                opened this issue {getDifference(issue.created_at)} ago ·{" "}
-                {issue.comments} comments
-              </WhoOpenedIssueAndWhen>
-            </IssueInformation>
-          </IssueDetailContainer>
-        ) : (
-          <LoaderComponent />
-        )}
-        {!!error && <SomethingWentWrong />}
-      </div>
-    );
-  }
-}
+          <IssueInformation>
+            <StateButton>
+              <IssueOpenedSVG />
+              {issue.state}
+            </StateButton>
+            <WhoOpenedIssueAndWhen>
+              <UserAnchor
+                style={{ fontWeight: "bold" }}
+                href={`${WEB_URL}/${OWNER}/${REPO}/issues/created_by/${issue.user.login}`}
+              >
+                {issue.user.login}{" "}
+              </UserAnchor>
+              opened this issue {getDifference(issue.created_at)} ago ·{" "}
+              {issue.comments} comments
+            </WhoOpenedIssueAndWhen>
+          </IssueInformation>
+        </IssueDetailContainer>
+      ) : (
+        <LoaderComponent />
+      )}
+      {!!error && <SomethingWentWrong />}
+    </div>
+  );
+};
 
 export default IssueDetail;
