@@ -68,13 +68,27 @@ const Header = ({
     <Navmenus row="first">
       <RepoTitleInfo>
         <RepoLogoSVG />
-        <Anchor href={url} color="#0366d6">
+        <Anchor href={url} color="#0366d6" fontWeight={500}>
           {login}
         </Anchor>
         <PathDivider>/</PathDivider>
         <Anchor color="#0366d6" fontWeight="bold" href={html_url}>
           {name}
         </Anchor>
+        <span
+          style={{
+            marginLeft: "8px",
+            border: "1px solid #30363d",
+            color: "#8b949e",
+            display: "inline-block",
+            padding: "0 7px",
+            lineHeight: "18px",
+            borderRadius: "2em",
+            // verticalAlign: "middle",
+          }}
+        >
+          Public
+        </span>
       </RepoTitleInfo>
       <RightNav>
         <RepoDetail tag="Watch" value={subscribers_count} />
