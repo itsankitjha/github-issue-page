@@ -16,8 +16,7 @@ export const fetchGitIssues = createAsyncThunk(
       }
       return rejectWithValue(response.message);
     } catch (err) {
-      console.log(err);
-      // alert(err);
+      alert(err);
       throw err;
     }
   }
@@ -43,7 +42,6 @@ export const issuesSlice = createSlice({
         }
       })
       .addCase(fetchGitIssues.fulfilled, (state, action) => {
-        console.log(action);
         const { requestId } = action.meta;
         if (state.fetching === true && state.currentRequestId === requestId) {
           state.fetching = false;

@@ -12,7 +12,7 @@ const requestApi = async (resourcePath, method, params) => {
     response = await axios({ url, method, data: params, headers });
     return response.data;
   }
-  console.log(resourcePath);
+
   response = await axios({ url, method, headers });
   return response.data;
 };
