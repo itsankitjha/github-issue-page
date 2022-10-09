@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import "normalize.css";
-import { BrowserRouter, Router, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import HeaderContainer from "containers/HeaderContainer";
 import SubNav from "components/search-subnav/SubNav";
 import IssuesTable from "components/issues-table/IssuesTable";
@@ -25,13 +25,12 @@ const App = () => (
     <HeaderContainer />
     <IssueListingContainer>
       <SubNav />
-      <BrowserRouter>
-        <Router>
-          <Route exact path="/" component={IssuesTable} />
-          {/* <Route path="/:id" component={IssuesDetail} /> */}
-          <Route path="*" component={IssuesTable} />
-        </Router>
-      </BrowserRouter>
+
+      <Routes>
+        <Route exact path="/" element={<IssuesTable />} />
+        {/* <Route path="/:id" component={IssuesDetail} /> */}
+        <Route path="*" element={<IssuesTable />} />
+      </Routes>
     </IssueListingContainer>
   </Container>
 );
